@@ -16,18 +16,34 @@ El programa se debe detener en caso de que se hayan muerto todas las celdas.
 Se le debe permitir al usuario cargar el patrón inicial y lanzar la simulación para ver cómo evoluciona el modelo.
 """
 import os
+import getopt
+import sys
 from time import sleep
 
 import numpy as np
 import pygame
 
-from src.models import main_screen
 from src.utilities import function
 
-main_screen = main_screen.MainScreen(500, 500, 10, 10, (255, 255, 255))
+
+def option_reading():
+    (opt, arg) = getopt.getopt(sys.argv[1:], 'r:c:', ['rows=', 'column='])
+
+    if len(opt) != 2:
+        row, column = 10, 10
+
+    else:
+        for (op, arg) in opt:
+            if op in ['-r', '--row']:
+                row = int(arg)
+            elif op in ['-c', '--column']:
+                column = int(arg)
+
+    assert (row, column) is not None
+    return row, column
 
 
-def render_screen(size, num_cells, width_cell=False):
+def render_screen(main_screen, size, num_cells, width_cell=False):
     main_screen.setWidthCell(
         function.grid_render(size, num_cells)
     ) if width_cell else main_screen.setHeightCell(
@@ -36,12 +52,24 @@ def render_screen(size, num_cells, width_cell=False):
 
 
 def main():
+    from src.models import main_screen
+
+    row, column = option_reading()
+    function.write_txt_file(row, column)
+
     os.system("clear")
+    input('Modify the matrix.txt file with the desired automata and then press any key to continue.')
+
+    main_screen = main_screen.MainScreen(500, 500, row, column, (255, 255, 255))
+
+    # Generamos una matriz llena de ceros con la cantidad de columnas y filas que se eligieron
+    matrix_status = function.read_txt_file()  # function.make_zero_matrix(main_screen)
+
     pygame.init()
 
     # Definimos el tamaño unitario para cada bloque en ancho y alto
-    render_screen(main_screen.width, main_screen.getHorizontalCells(), True)
-    render_screen(main_screen.height, main_screen.getVerticalCells())
+    render_screen(main_screen, main_screen.width, main_screen.getHorizontalCells(), True)
+    render_screen(main_screen, main_screen.height, main_screen.getVerticalCells())
 
     # Generamos la pantalla sobre la cual correra nuestro juego y le damos el color seleccionado
     screen = pygame.display.set_mode((
@@ -50,9 +78,6 @@ def main():
     ))
 
     screen.fill(main_screen.getBackGroundColor())
-
-    # Generamos una matriz llena de ceros con la cantidad de columnas y filas que se eligieron
-    matrix_status = function.read_txt_file()  # function.make_zero_matrix(main_screen)
 
     while True:
 
@@ -99,6 +124,11 @@ def main():
 
                 pygame.draw.polygon(screen, (74, 74, 74), polygon, 1) if updated_matrix_status[x, y] == 0 \
                     else pygame.draw.polygon(screen, (74, 74, 74), polygon, 0)
+
+        if updated_matrix_status.any() == np.zeros((row, column)).any():
+            sleep(3)
+            pygame.display.flip()
+            break
 
         sleep(0.35)
         matrix_status = np.copy(updated_matrix_status)

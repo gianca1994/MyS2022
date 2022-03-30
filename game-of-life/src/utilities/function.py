@@ -16,3 +16,6 @@ def read_txt_file():
     return np.loadtxt('matrix.txt', skiprows=0)
 
 
+def write_txt_file(row, column):
+    zero_matrix = np.zeros((row, column))
+    np.savetxt('matrix.txt', zero_matrix, '%.0f')
