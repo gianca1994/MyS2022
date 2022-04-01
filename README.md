@@ -6,4 +6,4 @@ In the file "INSTALL.md" you will find the steps to follow for the correct insta
 
 List of projects:
 
-1. GameOfLife, link: [Click](https://github.com/gianca1994/MyS2022/)
+1. GameOfLife, link: [Click](https://github.com/gianca1994/MyS2022/tree/main/game-of-life)
