@@ -53,7 +53,7 @@ def render_screen(main_screen, size, num_cells, width_cell=False):
 
 def main():
     from src.models import main_screen
-
+    generation_counter = 0
     row, column = option_reading()
     function.write_txt_file(row, column)
 
@@ -125,14 +125,22 @@ def main():
                 pygame.draw.polygon(screen, (74, 74, 74), polygon, 1) if updated_matrix_status[x, y] == 0 \
                     else pygame.draw.polygon(screen, (74, 74, 74), polygon, 0)
 
-        if updated_matrix_status.any() == np.zeros((row, column)).any():
-            sleep(3)
+        generation_counter += 1
+
+        if updated_matrix_status.any() == np.zeros((row, column)).any() or \
+                np.array_equal(matrix_status,updated_matrix_status):
+
+            generation_counter -= 1
+            sleep(2)
             pygame.display.flip()
             break
 
         sleep(0.35)
         matrix_status = np.copy(updated_matrix_status)
         pygame.display.flip()
+
+    print(f'Final state of the matrix: \n{updated_matrix_status}\n')
+    print(f'Total number of generations occurred: {generation_counter}')
 
 
 if __name__ == '__main__':
