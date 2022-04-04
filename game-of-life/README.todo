@@ -1,0 +1,7 @@
+- The get opt could be improved, allowing the user to designate only 1 field, i.e. only modify rows or columns, unitarily.
+
+- The main function should be modularized, in order to make the code more readable.
+
+- A constants module should be implemented for all constants.
+
+

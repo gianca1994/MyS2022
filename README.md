@@ -2,7 +2,7 @@
 
 Welcome to the repository corresponding to the subject "Models and Simulation".
 
-In the file "INSTALL.md" you will find the steps to follow for the correct installation of all the libraries that will be used in this repository.
+In the "INSTALL.md" file you will find the steps to follow for the correct installation of all the libraries to be used in each of the directories.
 
 List of projects:
 

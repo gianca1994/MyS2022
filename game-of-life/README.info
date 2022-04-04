@@ -1,0 +1,5 @@
+- The pygame module was used, due to its simplicity and the easiness it generates at the time of graphical representation.
+
+- The numpy module was used, to facilitate the handling of the matrices.
+
+- The rules of the game were treated by means of conditional if.
