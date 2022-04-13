@@ -1,6 +1,6 @@
 class Dam:
-    def __init__(self):
-        self.amount = 500
+    def __init__(self, amount=500):
+        self.amount = amount
         self.birth_rate = 0.08
 
     def getAmount(self) -> int:

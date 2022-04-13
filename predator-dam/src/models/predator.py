@@ -1,6 +1,6 @@
 class Predator:
-    def __init__(self):
-        self.amount = 10
+    def __init__(self, amount=10):
+        self.amount = amount
         self.mortality_rate = 0.2
 
     def getAmount(self) -> int:

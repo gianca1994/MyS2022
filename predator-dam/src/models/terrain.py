@@ -1,26 +1,26 @@
 class Terrain:
-    def __init__(self):
-        self.maximum_capacity = 5000
-        self.current_capacity = 0
+    def __init__(self, maximum_cap=5000):
+        self.maximum_cap = maximum_cap
+        self.current_cap = 0
 
-    def getMaximumCapacity(self) -> int:
-        return self.maximum_capacity
+    def getMaximumCap(self) -> int:
+        return self.maximum_cap
 
-    def setMaximumCapacity(self, val) -> None:
-        self.maximum_capacity = val
+    def setMaximumCap(self, val) -> None:
+        self.maximum_cap = val
 
-    def getCurrentCapacity(self) -> int:
-        return self.current_capacity
+    def getCurrentCap(self) -> int:
+        return self.current_cap
 
-    def setCurrentCapacity(self, val) -> None:
-        self.current_capacity = self.maximum_capacity - val
+    def setCurrentCap(self, val) -> None:
+        self.current_cap = self.maximum_cap - val
 
     def __repr__(self):
         return 'Terrain [' \
-               'Maximum Capacity: %r ' \
-               'Current Capacity: %r' \
+               'Maximum cap: %r ' \
+               'Current cap: %r' \
                ']' % \
                (
-                   self.maximum_capacity,
-                   self.current_capacity
+                   self.maximum_cap,
+                   self.current_cap
                )
