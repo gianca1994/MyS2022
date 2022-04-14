@@ -1,6 +1,8 @@
 import getopt
 import sys
 
+import modsim as ms
+
 from src.models.dam import Dam
 from src.models.predator import Predator
 from src.models.terrain import Terrain
@@ -8,10 +10,11 @@ from src.models.terrain import Terrain
 damM = Dam()
 predatorM = Predator()
 terrainM = Terrain()
-deltaT = 1
+DELTA_T = 1
+
 
 def option_reading():
-    (opt, arg) = getopt.getopt(sys.argv[1:], 'd:p:c:', ['dam=', 'predator=', 'capacity='])
+    (opt, arg) = getopt.getopt(sys.argv[1:], 'd:p:c:w:', ['dam=', 'predator=', 'capacity=', 'week='])
 
     for (op, arg) in opt:
         if op in ['-d', '--dam']:
@@ -20,13 +23,15 @@ def option_reading():
             predatorM.setAmount(int(arg))
         elif op in ['-c', '--capacity']:
             terrainM.setMaximumCap(int(arg))
-        # elif -> Cantidad de Semanas? SI
+        elif op in ['-w', '--week']:
+            terrainM.setWeek(int(arg))
 
 
 def main():
     option_reading()
 
-    print(f'Variables iniciales: [Presas: {damM.getAmount()} | Depredadores: {predatorM.getAmount()} | Terreno: {terrainM.getMaximumCap()}]')
+    print(
+        f'Variables iniciales: [Presas: {damM.getAmount()} | Depredadores: {predatorM.getAmount()} | Terreno: {terrainM.getMaximumCap()}]')
 
     # Posibles encuentros
     possible_meetings = damM.getAmount() * predatorM.getAmount()
@@ -37,30 +42,42 @@ def main():
     # Probabilidad de que muera una presa
     dam_dies = predatorM.getAmount() / possible_meetings
 
+    dis_predator = predatorM.getMortalityRate() * predatorM.getAmount()
+
+    list_live_predator = list()
+    list_live_dam = list()
+
     # -------------------------------- Inicio del Loop --------------------------------
 
     # Seteo de la capacidad del terreno actual
-    terrainM.setCurrentCap(
-        damM.getAmount()
-    )
+    for i in range(terrainM.getWeek() + 1):
+        terrainM.setCurrentCap(
+            damM.getAmount()
+        )
 
-    inc_dam = (terrainM.getCurrentCap() / terrainM.getMaximumCap()) * damM.getBirthRate() * damM.getAmount()
+        inc_dam = (terrainM.getCurrentCap() / terrainM.getMaximumCap()) * damM.getBirthRate() * damM.getAmount()
 
-    dis_predator = predatorM.getMortalityRate() * predatorM.getAmount()
+        hunting = predatorM.getAmount() * damM.getAmount()
 
-    hunting = predatorM.getAmount() * damM.getAmount()
+        damM.setAmount(
+            damM.getAmount() + DELTA_T * (inc_dam - dam_dies * hunting)
+        )
 
-    damM.setAmount(
-        damM.getAmount() + deltaT * (inc_dam - dam_dies * hunting)
-    )
+        predatorM.setAmount(
+            predatorM.getAmount() + DELTA_T * (predators_born * hunting - dis_predator)
+        )
 
-    predatorM.setAmount(
-        predatorM.getAmount() + deltaT * (predators_born * hunting - dis_predator)
-    )
+        list_live_predator.append(predatorM.getAmount())
+        list_live_dam.append(damM.getAmount())
 
-    print(f'Depredadores que viven si hay presas: {predators_born} | Presas que mueren: {dam_dies}')
-    print(f'Capacidad actual del terreno: {terrainM.getCurrentCap()}')
-    print(f'inc_dam: {inc_dam}, dis_predator: {dis_predator}, hunting: {hunting}')
+    ms.plot(list_live_predator, ':', color='blue', label='Live Predators')
+    ms.plot(list_live_dam, '--', color='red', label='Live Dams')
+
+    ms.decorate(xlabel='Weeks',
+                ylabel='Live Quantity',
+                title='Predator vs Dam')
+
+    ms.savefig('.\PredatorVsDam-Model.jpg')
 
 
 if __name__ == '__main__':
