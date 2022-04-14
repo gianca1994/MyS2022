@@ -30,9 +30,6 @@ def option_reading():
 def main():
     option_reading()
 
-    print(
-        f'Variables iniciales: [Presas: {damM.getAmount()} | Depredadores: {predatorM.getAmount()} | Terreno: {terrainM.getMaximumCap()}]')
-
     # Posibles encuentros
     possible_meetings = damM.getAmount() * predatorM.getAmount()
 
