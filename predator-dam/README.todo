@@ -1,0 +1,3 @@
+- The main function should be modularized, to make the code more readable.
+
+- A constants module should be implemented for all constants and representation strings.

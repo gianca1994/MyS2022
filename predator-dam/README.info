@@ -1,0 +1,5 @@
+- The modsim module and matplotlib with the pint add-on were used for the graphical representation of the model.
+
+- A for was used as a loop, because it is a limited number of weeks.
+
+- A getopt was used to set up the initial counters that will give life to the model.
