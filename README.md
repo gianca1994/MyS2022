@@ -7,3 +7,5 @@ In the "INSTALL.md" file you will find the steps to follow for the correct insta
 List of projects:
 
 1. GameOfLife, link: [Click](https://github.com/gianca1994/MyS2022/tree/main/game-of-life)
+2. PredatorDam, link: [Click](https://github.com/gianca1994/MyS2022/tree/main/predator-dam)
+3. Population, link: [Click](https://github.com/gianca1994/MyS2022/tree/main/poblation)

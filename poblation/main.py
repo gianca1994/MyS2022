@@ -40,14 +40,14 @@ def plot_result_quadratic(census, un, result, title):
     ms.plot(census, ':', label="US censo")
     ms.plot(un, '--', label="UN censo")
     ms.decorate(title=title, xlabel='Año', ylabel='Poblacion (miles de millones)')
-    ms.savefig("poblacion.jpg")
+    ms.savefig("Population-Model.jpg")
 
 
 def plot_result_net_growth(population_array, net_growth, title):
     pyplot.clf()
     ms.plot(population_array, net_growth)
     ms.decorate(title=title, xlabel="poblacion", ylabel="crecimiento neto")
-    ms.savefig("crecimientoneto.png")
+    ms.savefig("NetGrowth-Model.png")
 
 
 # result = function.run_simulation(function.step_quadratic)
