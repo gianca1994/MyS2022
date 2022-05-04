@@ -1,0 +1,5 @@
+- The modsim module and matplotlib with the pint plug-in were used for the graphical representation of the model.
+
+- Pandas was used to read the dataframe by placing it in the html.
+
+- Pyplot was used to make the graphs.
